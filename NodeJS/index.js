@@ -1,3 +1,8 @@
+/**
+ * [Open source] Vietnam nCoV Api
+ * Author: Vy Nghia 
+ **/
+
 const
     axios = require('axios'),
     https = require('https'),
