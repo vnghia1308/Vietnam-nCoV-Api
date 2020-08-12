@@ -12,9 +12,9 @@ $dom = new DomDocument();
 $xPath = new DOMXpath($dom);
 
 $xPathQuery = "//table[@id='sailorTable']//tbody//tr";
-$elements = $xPath -> query( $xPathQuery );
+$elements = $xPath -> query($xPathQuery);
 
-if(!is_null( $elements)){
+if(!is_null($elements)){
     $results = array();
 
     foreach($elements as $index => $element){
