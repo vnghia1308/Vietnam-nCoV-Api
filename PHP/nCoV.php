@@ -29,7 +29,8 @@ if(!is_null($elements)){
                     if($i == 1) $results[$index]["city"] = $node->nodeValue;
                     if($i == 2) $results[$index]["case"] = $node->nodeValue;
                     if($i == 3) $results[$index]["testing"] = $node->nodeValue;
-                    if($i == 4) $results[$index]["death"] = $node->nodeValue;
+                    if($i == 4) $results[$index]["recovered"] = $node->nodeValue;
+                    if($i == 5) $results[$index]["death"] = $node->nodeValue;
                 }
                 else
                     break;
