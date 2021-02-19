@@ -9,37 +9,40 @@ const
     { parse } = require('node-html-parser'),
     config = {
         method: 'get',
-        url: 'https://ncov.moh.gov.vn/vi',
+        url: 'https://ncov.moh.gov.vn/',
         headers: {},
         httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    }
+    },
+    MAP_KEY = require("./map_key")
 
-
-function nCoV(callback) {
+function nCoV(callback = () => { }) {
     var nCoV_Result = []
 
     axios(config).then(function (response) {
         const
-            root = parse(response.data),
-            table = root.querySelector('#sailorTable').toString()
-    
-        table.match(/<tr[\s\S]*?<\/tr>/g).forEach(tr => {
-            if(tr.match(/<td[\s\S]*?<\/td>/g) != null){
-                const 
-                    data = tr.match(/<td[\s\S]*?<\/td>/g)
-                
+            root = parse(response.data)
+
+        const
+            dataFind = response.data.match(/(?<=var data =)(.*)(?=;)/g),
+            finalData = JSON.parse(dataFind[0])
+
+        for (let d of finalData) {
+            const map = MAP_KEY.find(x => x.key == d["hc-key"])
+
+            if(map) {
                 nCoV_Result.push({
-                    city: data[0].replace(/(<([^>]+)>)/gi, ""),
-                    case: data[1].replace(/(<([^>]+)>)/gi, ""),
-                    testing: data[2].replace(/(<([^>]+)>)/gi, ""),
-                    recovered: data[3].replace(/(<([^>]+)>)/gi, ""),
-                    death: data[4].replace(/(<([^>]+)>)/gi, "")
+                    city: map.name,
+                    case: d.value,
+                    testing: d.socadangdieutri,
+                    recovered: d.socakhoi,
+                    death: d.socatuvong
                 })
             }
-        })
-    
+        }
+
         callback(nCoV_Result)
     }).catch(function (error) {
+        console.log(error)
         callback(null)
     })
 }
