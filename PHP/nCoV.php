@@ -1,7 +1,8 @@
 <?php
 /**
  * [Open source] Vietnam nCoV Api
- * Author: Vy Nghia 
+ * Author: Vy Nghia
+ * This source is outdated
  **/
 
 header('Content-type: application/json');
